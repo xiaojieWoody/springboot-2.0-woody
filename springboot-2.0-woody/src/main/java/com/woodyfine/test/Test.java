@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,7 +25,10 @@ public class Test {
     private ConfigBean configBean;
 
     @Autowired
-    private TestRepository testRepository;
+    private JDBCTemplateTestRepository JDBCTemplateTestRepository;
+
+    @Autowired
+    private TestDao testDao;
 
     @RequestMapping("/thymeleaf")
     public ModelAndView getTestMsg() {
@@ -67,31 +70,36 @@ public class Test {
     @RequestMapping("/jdbcTemplate/user")
     @ResponseBody
     public  Boolean saveUser(@RequestBody User user) {
-        return testRepository.insertUser(user);
+//        return JDBCTemplateTestRepository.insertUser(user);
+        return testDao.insertUser(user);
     }
 
     @RequestMapping("/jdbcTemplate/{id}/delete")
     @ResponseBody
     public  Boolean deleteUser(@PathVariable Long id) {
-        return testRepository.deleteUser(id);
+//        return JDBCTemplateTestRepository.deleteUser(id);
+        return testDao.deleteUser(id);
     }
 
     @RequestMapping("/jdbcTemplate/update")
     @ResponseBody
     public  Boolean updateUser(@RequestBody User user) {
-        return testRepository.updateUser(user);
+//        return JDBCTemplateTestRepository.updateUser(user);
+        return testDao.updateUser(user);
     }
 
     @RequestMapping("/jdbcTemplate/find")
     @ResponseBody
-    public  List<User> findUser(@RequestBody User user) {
-        return testRepository.findUser(user);
+    public  List<UserBean> findUser(@Nullable @RequestBody User user) {
+//        return JDBCTemplateTestRepository.findUser(user);
+        return testDao.findUser(user);
     }
 
     @RequestMapping("/jdbcTemplate/{id}")
     @ResponseBody
-    public  User findUserById(@PathVariable Long id) {
-        return testRepository.findUserById(id);
+    public  UserBean findUserById(@PathVariable Long id) {
+//        return JDBCTemplateTestRepository.findUserById(id);
+        return testDao.findUserById(id);
     }
 
 }

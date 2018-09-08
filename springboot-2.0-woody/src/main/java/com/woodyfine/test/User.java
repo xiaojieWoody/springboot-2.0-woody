@@ -2,7 +2,7 @@ package com.woodyfine.test;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class User extends BaseEntity implements Serializable {
 
 
     private static final long serialVersionUID = -7366950083761743971L;

@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 @Repository
-public class TestRepository implements TestDao{
+public class JDBCTemplateTestRepository implements TestDao{
 
 
     @Autowired
@@ -30,8 +30,8 @@ public class TestRepository implements TestDao{
     }
 
     @Override
-    public User findUserById(Long id) {
-        List<User> userResult = jdbcTemplate.query("select id, name, age, sex, addr from users where id = ?", new Object[]{id}, new BeanPropertyRowMapper(User.class));
+    public UserBean findUserById(Long id) {
+        List<UserBean> userResult = jdbcTemplate.query("select id, name, age, sex, addr, create_time as createTime from users where id = ?", new Object[]{id}, new BeanPropertyRowMapper(UserBean.class));
         if(userResult != null && userResult.size() > 0) {
             return userResult.get(0);
         } else {
@@ -42,8 +42,26 @@ public class TestRepository implements TestDao{
 
     @Override
     public boolean updateUser(User user) {
-        int update = jdbcTemplate.update("update users set name = ?, age = ?, sex = ?, addr = ? where id = ?", new Object[]{user.getName(),
-                user.getAge(), user.getSex(), user.getAddr(), user.getId()});
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("update users set create_time = NOW()");
+        if(user.getName() != null) {
+            sql.append(", name = " + "'" +user.getName() + "'");
+        }
+        if(user.getSex() != null) {
+            sql.append(", sex = " + user.getSex());
+        }
+        if(user.getAge() != null) {
+            sql.append(", age = " + user.getAge());
+        }
+        if(user.getAddr() != null) {
+            sql.append(", addr = " + "'" +user.getAddr()+ "'");
+        }
+        if(user.getId() != null) {
+            sql.append(" where id = " +  user.getId());
+        }
+
+        int update = jdbcTemplate.update(sql.toString());
 
         return update == 1 ? true : false;
     }
@@ -51,10 +69,10 @@ public class TestRepository implements TestDao{
 
 
     @Override
-    public List<User> findUser(User user) {
+    public List<UserBean> findUser(User user) {
 
         StringBuilder sql = new StringBuilder();
-        sql.append("select id, name, age, sex, addr from users where 1 = 1");
+        sql.append("select id, name, age, sex, addr, create_time as createTime from users where 1 = 1");
         if(user.getId() != null) {
             sql.append(" and id = " + user.getId());
         }
@@ -71,7 +89,7 @@ public class TestRepository implements TestDao{
             sql.append(" and addr like '%" + user.getAddr() + "%'");
         }
 
-        List<User> userList = jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper(User.class));
+        List<UserBean> userList = jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper(UserBean.class));
 
         return userList;
     }
