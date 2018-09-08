@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thymeleaf</title>
+    <meta http-equiv=" Content-Type"/>
+</head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <td>一</td>
+            </tr>
+            <tr th:each="learn : ${learnList}">
+                <td th:text="${learn}" />
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
