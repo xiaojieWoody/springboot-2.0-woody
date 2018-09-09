@@ -5,7 +5,7 @@
 <mapper namespace="com.woodyfine.test.TestDao">
 
     <resultMap id="userMap" type="com.woodyfine.test.UserBean">
-        <result property="id" javaType="long" column="id" jdbcType="BIGINT" />
+        <id property="id" javaType="long" column="id" jdbcType="BIGINT" />
         <result property="name" javaType="String" column="name" jdbcType="VARCHAR"/>
         <result property="sex" javaType="Integer" column="sex" jdbcType="TINYINT"/>
         <result property="age" javaType="Integer" column="age" jdbcType="TINYINT"/>
