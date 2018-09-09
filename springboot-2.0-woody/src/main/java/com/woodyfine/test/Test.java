@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -113,5 +114,13 @@ public class Test {
         Page<UserBean> result = new Page<>(user.getStartIndex() * user.getPageSize(), totalSize ,user.getPageSize(),userList);
         return result;
     }
+
+
+    @RequestMapping("/exception")
+    public void json(ModelMap modelMap) {
+        System.out.println(modelMap.get("author"));
+        int i=5/0;
+    }
+
 
 }
