@@ -31,7 +31,7 @@
                 and sex = #{sex}
             </if>
             <if test="age != null">
-                and age = #{age})
+                and age = #{age}
             </if>
         </where>
     </sql>
@@ -74,6 +74,20 @@
 
     <select id="findUser" resultMap="userMap">
         select <include refid="property" />
+        from users
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="pageUser" resultMap="userMap">
+        select <include refid="property" />
+        from users
+        <include refid="queryConditions"/>
+        order by create_time desc
+        limit #{startIndex}, #{pageSize}
+    </select>
+
+    <select id="totalUser" resultType="java.lang.Integer">
+        select count(id)
         from users
         <include refid="queryConditions"/>
     </select>

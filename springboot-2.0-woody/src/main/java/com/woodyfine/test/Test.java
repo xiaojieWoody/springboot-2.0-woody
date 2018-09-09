@@ -1,5 +1,6 @@
 package com.woodyfine.test;
 
+import com.woodyfine.util.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,17 @@ public class Test {
     public  UserBean findUserById(@PathVariable Long id) {
 //        return JDBCTemplateTestRepository.findUserById(id);
         return testDao.findUserById(id);
+    }
+
+    @RequestMapping("/jdbcTemplate/page")
+    @ResponseBody
+    public Page<UserBean> pageUser(@Nullable @RequestBody UserBean user) {
+        user.setStartIndex((user.getPageNum() - 1) * user.getPageSize());
+        List<UserBean> userList = testDao.pageUser(user);
+        int totalSize = testDao.totalUser(user);
+
+        Page<UserBean> result = new Page<>(user.getStartIndex() * user.getPageSize(), totalSize ,user.getPageSize(),userList);
+        return result;
     }
 
 }

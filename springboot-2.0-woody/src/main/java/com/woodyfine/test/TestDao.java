@@ -16,4 +16,9 @@ public interface TestDao {
     boolean updateUser(User user);
 
     List<UserBean> findUser(User user);
+
+    List<UserBean> pageUser(UserBean user);
+
+    int totalUser(UserBean user);
+
 }

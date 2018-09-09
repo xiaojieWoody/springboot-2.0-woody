@@ -3,10 +3,14 @@ package com.woodyfine.test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.sql.ResultSet;
+import java.sql.RowId;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class JDBCTemplateTestRepository implements TestDao{
@@ -92,5 +96,15 @@ public class JDBCTemplateTestRepository implements TestDao{
         List<UserBean> userList = jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper(UserBean.class));
 
         return userList;
+    }
+
+    @Override
+    public List<UserBean> pageUser(UserBean user) {
+        return null;
+    }
+
+    @Override
+    public int totalUser(UserBean user) {
+        return 0;
     }
 }
