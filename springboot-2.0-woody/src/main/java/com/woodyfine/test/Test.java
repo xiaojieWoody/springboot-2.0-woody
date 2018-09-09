@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,6 +32,9 @@ public class Test {
 
     @Autowired
     private TestDao testDao;
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
     @RequestMapping("/thymeleaf")
     public ModelAndView getTestMsg() {
@@ -123,4 +127,10 @@ public class Test {
     }
 
 
+    @RequestMapping("/redis")
+    @ResponseBody
+    public String setRedisValue() {
+        redisTemplate.opsForValue().set("test","test0011");
+        return redisTemplate.opsForValue().get("test");
+    }
 }
